@@ -1,0 +1,103 @@
+#mapaContainer, #graficoContainer {
+    width: 70vw;
+    max-width: 1200px;
+    height: 70vh;
+    display: block;
+    margin-left: auto; 
+    margin-right: 20px;
+    margin-top: 0; /* más arriba */
+}
+
+    /* Quitar bordes */
+    #mapaContainer, #graficoContainer, #graficoCanvas {
+        border: none;
+    }
+
+    /* Canvas ocupa todo el contenedor */
+    #graficoCanvas {
+        width: 100% !important;
+        height: 100% !important;
+        display: block;
+    }
+
+	/* Info box profesional */
+    #infoBox {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 250px;
+        background: linear-gradient(145deg, #ffffff, #f0f0f0);
+        border-radius: 12px;
+        padding: 15px 20px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+        z-index: 1000;
+        display: none;
+        text-align: center;
+        font-size: 0.95rem;
+        color: #333;
+        border: 1px solid #ddd;
+        transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    #infoBox.show {
+        display: block;
+        opacity: 1;
+        transform: translateY(-10px);
+    }
+
+    #infoBox button {
+        margin-top: 8px;
+        padding: 6px 12px;
+        font-size: 0.85rem;
+        background-color: #007BFF;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+    }
+
+#infoBox button:hover {
+        background-color: #0056b3;
+}
+
+/* Leyenda en una sola línea: Peores + imágenes + Mejores */
+#leyenda{
+  display: flex;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 12px !important;
+  width: 100%;
+}
+
+/* Asegura que los textos no se vayan a otra línea */
+#leyenda .texto_leyenda_izda,
+#leyenda .texto_leyenda_dcha{
+  white-space: nowrap !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  width: auto !important;
+}
+
+/* Imágenes en línea */
+#leyenda .imagenes_leyenda{
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 4px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  width: auto !important;
+}
+
+#leyenda .imagenes_leyenda img{
+  display: inline-block !important;
+  vertical-align: middle !important;
+  height: 24px; /* ajusta si quieres */
+}
+
+/* Forzar orden: Peores - imágenes - Mejores */
+#leyenda .texto_leyenda_izda{ order: 1 !important; }
+#leyenda .imagenes_leyenda{ order: 2 !important; }
+#leyenda .texto_leyenda_dcha{ order: 3 !important; }
