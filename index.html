@@ -1,4 +1,4 @@
-
+<!-- HTML a partir de la copia del frontend de la página actual -->
 <!DOCTYPE html>
 <html lang="es" class="no-js">
 <head>
@@ -21,7 +21,6 @@
 </head>
 <body>
 
-	<!-- CABECERA ROJA -->
     <header class="header-obsa" style="
         width: 100%;
         background: #c8102e;
@@ -52,68 +51,134 @@
         <!-- COLUMNA IZQUIERDA -->
         <aside style="width:300px; padding-right:40px;">
 
-            <h2 style="color:#1f8f41; font-size:26px; margin:0;">DETERMINANTES</h2>
-            <!-- LISTA DE INDICADORES DINÁMICOS -->
-            <div id="lista-indicadores" style="line-height:1.7; cursor:pointer;"></div>
+            <h2 style="color:#1f8f41; font-size:26px; margin:0;">MENÚ</h2>
+
+            <div id="menu-izq" style="margin-top:12px; line-height:1.7;">
+
+                <!-- CABECERA: DETERMINANTES -->
+                <div id="btn-determinantes"
+                    style="font-weight:bold; cursor:pointer; user-select:none; padding:6px 0;">
+                    Determinantes
+                </div>
+
+                <!-- LISTA DESPLEGABLE -->
+                <div id="lista-determinantes"
+                    style="display:none; padding-left:14px; cursor:pointer;"></div>
+
+                <!-- OTRAS OPCIONES (de momento no hacen nada) -->
+                <div id="btn-resultados"
+                    style="font-weight:bold; cursor:pointer; user-select:none; padding:6px 0; margin-top:8px;">
+                    Resultados
+                </div>
+                <div id="lista-resultados"
+                    style="display:none; padding-left:14px; cursor:pointer;"></div>
+
+
+                <div id="btn-ranking"
+                    style="font-weight:bold; cursor:pointer; user-select:none; padding:6px 0;">
+                    Ranking
+                </div>
+
+            </div>
 
         </aside>
 
         <!-- COLUMNA DERECHA -->
         <main style="flex-grow:1;">
 
-            <!-- CONTENEDOR SELECT AÑO + MODO -->
-            <div style="display:flex; gap:20px; align-items:center;">
+            <!-- Esto se va cambiando según el indicador que escojas -->
+            <h1 id="tituloIndicador" style="color:#40a64f; font-size:40px; margin-top:20px;">
+            Determinantes de salud
+            </h1>
 
-                <select id="añoSelect" style="font-size:18px; padding:6px;">
-                    <option>2019</option>
-                    <option>2020</option>
-                    <option>2021</option>
+            <!-- CONTROLES (siempre debajo del título) -->
+            <div id="controlsBar" style="display:flex; gap:20px; align-items:center; flex-wrap:wrap; margin-top:10px;">
+
+            <!-- Año -->
+            <label style="font-weight:bold;">
+                Año:
+                <select id="añoSelect" style="font-size:18px; padding:6px; margin-left:8px;">
+                <option>2018</option>
+                <option>2019</option>
+                <option>2025</option>
                 </select>
+            </label>
 
-                <select id="modoSelect" style="font-size:18px; padding:6px;">
-                    <option value="mapa">Mapa</option>
-                    <option value="bar">Barras</option>
-                    <option value="line">Evolución</option>
+            <!-- Modo (Mapa/Barras/Evolución) -->
+            <label id="modoSelectWrap" style="font-weight:bold;">
+                Modo:
+                <select id="modoSelect" style="font-size:18px; padding:6px; margin-left:8px;">
+                <option value="mapa">Mapa</option>
+                <option value="bar">Barras</option>
+                <option value="line">Evolución</option>
                 </select>
+            </label>
 
-                <select id="concejoSelect" style="font-size:18px; padding:6px;"></select>
+            <!-- Modo ranking (solo visible en ranking) -->
+            <label id="rankingModoWrap" style="font-weight:bold; display:none;">
+                Ranking:
+                <select id="rankingModoSelect" style="font-size:18px; padding:6px; margin-left:8px;">
+                <option value="municipio">Por municipio</option>
+                <option value="indicador">Por indicador</option>
+                </select>
+            </label>
+
+            <!-- Municipio (concejo) -->
+            <label id="concejoWrap" style="font-weight:bold;">
+                Municipio:
+                <select id="concejoSelect" style="font-size:18px; padding:6px; margin-left:8px;"></select>
+            </label>
+
+            <!-- Indicador (solo visible en ranking por indicador) -->
+            <label id="indicadorWrap" style="font-weight:bold; display:none;">
+                Indicador:
+                <select id="indicadorSelect" style="font-size:18px; padding:6px; margin-left:8px;"></select>
+            </label>
 
             </div>
 
-            <h1 style="color:#40a64f; font-size:40px; margin-top:20px;">Determinantes de salud</h1>
+            <!-- PANEL RANKING (solo contenedores de tablas) -->
+            <div id="rankingPanel" style="display:none; margin-top:18px;">
+            <div id="rankingMunicipioContainer"></div>
+            <div id="rankingIndicadorContainer"></div>
+            </div>
 
-			<div class="mapadiv" id="mapaContainer">
-           <div data-role="mapa-svg"></div>
+            <div class="mapadiv" id="mapaContainer">
+                <div data-role="mapa-svg"></div>
+            </div>
+            
+
+            <div id="graficoContainer">
+                <canvas id="graficoCanvas"></canvas>
+            </div>
+
+            <div data-role="leyenda" hidden>
+                    <div data-leyenda="contenido"></div>
+            </div>
+            
+            <aside data-role="info" class="tooltip">
+                <h3 data-info="nombre"></h3>
+                <p><strong>Indicador:</strong> <span data-info="indicador"></span></p>
+                <p><strong>Valor:</strong> <span data-info="valor"></span></p>
+                <button type="button" data-action="cerrar">Cerrar</button>
+            </aside>
+
+
+            <p class="map-attribution">
+                Mapa: “Asturias - Mapa municipal.svg” — © Emilio Gómez Fernández (Wikimedia Commons).
+                Licencias:
+                <a href="https://creativecommons.org/licenses/by-sa/3.0/" rel="license">CC BY-SA 3.0</a>
+                y
+                <a href="https://www.gnu.org/licenses/old-licenses/fdl-1.2.html" rel="license">GFDL 1.2</a>.
+                <span>Se han realizado cambios para adaptar a la funcionalidad de la web.</span>
+            </p>
+
+            <div id="rankingConcejos" style="margin-top:16px;"></div>
+
+        </main>
+
     </div>
-
-	<div id="leyenda">
-    <div class="texto_leyenda_izda">Mejores resultados</div>
     
-    <div class="imagenes_leyenda">
-        <img src="https://obsaludasturias.com/obsa/wp-content/themes/twentysixteen-child/img/cuartil4_det.png" title="Cuartil 1" class="img_cuartil"/>
-        <img src="https://obsaludasturias.com/obsa/wp-content/themes/twentysixteen-child/img/cuartil3_det.png" title="Cuartil 2" class="img_cuartil"/>
-        <img src="https://obsaludasturias.com/obsa/wp-content/themes/twentysixteen-child/img/cuartil2_det.png" title="Cuartil 3" class="img_cuartil"/>
-        <img src="https://obsaludasturias.com/obsa/wp-content/themes/twentysixteen-child/img/cuartil1_det.png" title="Cuartil 4" class="img_cuartil"/>
-    </div>
-    
-      <div class="texto_leyenda_dcha">Peores resultados</div>
-  </div>
-
-  <div id="graficoContainer">
-      <canvas id="graficoCanvas"></canvas>
-  </div>
-
-    </main>
-
-    </div>
-    
-  <div id="infoBox">
-    <h3 id="nombre"></h3>
-    <p><b>Indicador:</b> <span id="indicador"></span></p>
-    <p><b>Valor:</b> <span id="valor"></span></p>
-    <button onclick="cerrarInfo()">Cerrar</button>
-  </div>
-
-  <script src="js/functions.js"></script>
+    <script type="module" src="js/app.js"></script>
 </body>
 </html>
