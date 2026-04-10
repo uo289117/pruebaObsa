@@ -51,15 +51,14 @@ export function pintarGrafico(state, { wrapLabel }) {
 
 
   // =======================================================
-  // 3) Calcular media (solo para barras)
+  // 3) Calcular valorAst (solo para barras)
   // =======================================================
-  // media: línea horizontal discontinua sobre el gráfico de barras
-  // Nota: aquí "0" cuenta como válido (porque Number.isFinite(0) = true)
-  // Se hace así por la forma de trabajar del OBSA
-  let media = null;
+  // valorAst: línea horizontal discontinua con el valor de Asturias
+  let valorAst = null;
   if (state.tipoGrafico === "bar") {
-    const valoresValidos = data.filter(v => Number.isFinite(v));
-    media = valoresValidos.length ? valoresValidos.reduce((a, b) => a + b, 0) / valoresValidos.length : null;
+    const arrAst = state.datosJSON?.[state.añoActual]?.["ASTURIAS / ASTURIES"]?.[state.indicadorActual];
+    const valor = Number(arrAst?.[0]);
+    valorAst = Number.isFinite(valor) ? valor : null;
   }
 
   // =======================================================
@@ -103,28 +102,28 @@ export function pintarGrafico(state, { wrapLabel }) {
         }
       }
     },
-    plugins: (state.tipoGrafico === "bar" && media !== null) ? [{
-      id: "mediaLine",
-      afterDraw(chart) {
-        const { ctx, chartArea: { top, left, right }, scales: { y } } = chart;
+      plugins: (state.tipoGrafico === "bar" && valorAst !== null) ? [{
+        id: "mediaLine",
+        afterDraw(chart) {
+          const { ctx, chartArea: { top, left, right }, scales: { y } } = chart;
 
-        ctx.save();
-        ctx.beginPath();
-        ctx.moveTo(left, y.getPixelForValue(media));
-        ctx.lineTo(right, y.getPixelForValue(media));
-        ctx.lineWidth = 2;
-        ctx.strokeStyle = "black";
-        ctx.setLineDash([6, 3]);
-        ctx.stroke();
-        ctx.restore();
+          ctx.save();
+          ctx.beginPath();
+          ctx.moveTo(left, y.getPixelForValue(valorAst));
+          ctx.lineTo(right, y.getPixelForValue(valorAst));
+          ctx.lineWidth = 2;
+          ctx.strokeStyle = "black";
+          ctx.setLineDash([6, 3]);
+          ctx.stroke();
+          ctx.restore();
 
-        ctx.save();
-        ctx.font = "bold 13px sans-serif";
-        ctx.fillStyle = "black";
-        ctx.textAlign = "center";
-        ctx.fillText(`Media: ${media.toFixed(2)}`, (left + right) / 2, top + 14);
-        ctx.restore();
-      }
-    }] : []
+          ctx.save();
+          ctx.font = "bold 13px sans-serif";
+          ctx.fillStyle = "black";
+          ctx.textAlign = "center";
+          ctx.fillText(`Asturias: ${valorAst.toFixed(2)}`, (left + right) / 2, top + 14);
+          ctx.restore();
+        }
+      }] : []
   });
 }
