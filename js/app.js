@@ -124,7 +124,7 @@ const ORDEN_DETERMINANTES = [
   "Demora quirúrgica (días)",
 
   "Estilos de vida",
-  "Consumo de tabaco (%)",
+  "Consumo diario de tabaco (%)",
   "Prevalencia de fumadores/as (%)",
   "Sobrecarga ponderal (infantil) (%)",
   "Prevalencia de sobrecarga ponderal (%)",
